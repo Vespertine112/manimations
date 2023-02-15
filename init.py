@@ -43,7 +43,7 @@ class FxPlotting(Scene):
         #     dif_beating, "x=2\pi", x_val=TAU, direction=UR, color=WHITE
         # )
 
-        eq.add_updater(lambda x: eq.become(GetTexString(eqTracker)))
+        # eq.add_updater(lambda x: ReplacementTransform(eq, MathTex("f(x)=Poop")))
         dif_beating.add_updater(lambda x: dif_beating.become(axes.plot(lambda x: (eqTracker.get_value()/(16-np.pi))*(np.cos(np.pi*x)-np.cos(4*x)), color=RED)))
         # eq.add_updater(lambda x: eq.save_state().become(GetTexString(eqTracker)).restore())
 
@@ -52,6 +52,12 @@ class FxPlotting(Scene):
         labels = VGroup(axes_labels)
         self.play(DrawBorderThenFill(plot),Write(labels))
         self.play(Write(dif_beating))
-        self.play(eqTracker.animate.increment_value(60))
+        self.play(eqTracker.animate.increment_value(20))
+        self.play(eqTracker.animate.increment_value(-20))
+
+        b1 = Brace(dif_beating)
+        b1Text = b1.get_text("Beating Oscillation")
+
+        self.play(Write(b1), DrawBorderThenFill(b1Text))
         self.wait(duration=3)
 
